@@ -1,0 +1,70 @@
+.stickybar-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    z-index: 9999;
+    display: none;
+}
+
+.stickybar-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.stickybar-text {
+    flex-grow: 1;
+    margin-right: 20px;
+}
+
+.stickybar-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    white-space: nowrap;
+    transition: background-color 0.3s;
+}
+
+.stickybar-button:hover {
+    background-color: #45a049;
+    color: white;
+}
+
+.stickybar-close {
+    cursor: pointer;
+    padding: 0 15px;
+    font-size: 24px;
+    line-height: 1;
+    color: #fff;
+    margin-left: 15px;
+}
+
+.stickybar-close:hover {
+    color: #ddd;
+}
+
+@media screen and (max-width: 768px) {
+    .stickybar-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px;
+    }
+    
+    .stickybar-text {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .stickybar-button {
+        margin-bottom: 10px;
+    }
+}

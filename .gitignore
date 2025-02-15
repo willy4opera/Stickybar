@@ -1,0 +1,39 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# IDE Files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Dependencies
+/node_modules/
+/vendor/
+composer.lock
+package-lock.json
+
+# Build outputs
+/dist/
+/build/
+
+# WordPress specific
+/wp-config.php
+/wp-content/uploads/
+*.log
+
+# Test and coverage reports
+/coverage/
+/phpunit.xml
+.phpunit.result.cache
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Temporary files
+*.swp
+*.swo
+*~
