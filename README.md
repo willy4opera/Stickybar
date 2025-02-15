@@ -3,6 +3,16 @@
 ## Overview
 Stickybar is a WordPress plugin that implements a customizable sticky navigation bar for enhanced website navigation and user experience.
 
+## Developer Information
+- **Developer Name**: Williams Obi
+- **Contact**: +234 803 075 6350
+- **Website**: https://williamsobi.com.ng
+- **GitHub**: https://git.com/willy4opera
+- **Support Email**: icare@williamsobi.com.ng
+- **Development Status**: Active
+- **Version**: 1.0.0
+- **Last Updated**: February 15, 2024
+
 ## Project Structure
 ```
 stickybar/
@@ -154,7 +164,7 @@ Currently supported:
 ## Support and Contributing
 - For bugs and feature requests, please create an issue
 - See CONTRIBUTING.md for development guidelines
-- For security issues, please contact security@example.com
+- For support, please contact: icare@williamsobi.com.ng
 
 ## License
 This project is licensed under the GPL v2 or later.
