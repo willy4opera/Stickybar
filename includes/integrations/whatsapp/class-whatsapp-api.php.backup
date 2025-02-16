@@ -87,11 +87,6 @@ class Stickybar_WhatsApp_API {
         return $this->settings['display_style'];
     }
 
-    public function save_accounts($accounts) {
-        $this->accounts = $accounts;
-        return update_option('stickybar_whatsapp_accounts', $accounts);
-    }
-
     public function get_current_page_info() {
         return array(
             'title' => wp_strip_all_tags(get_the_title()),

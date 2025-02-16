@@ -1,136 +1,99 @@
 <?php
 /**
- * The admin-specific functionality of the plugin.
- *
- * @package    Stickybar
- * @subpackage Stickybar/admin
+ * Stickybar Admin Class
  */
-
 class Stickybar_Admin {
-    private $plugin_name;
-    private $version;
-
-    public function __construct($plugin_name, $version) {
-        $this->plugin_name = $plugin_name;
-        $this->version = $version;
-
-        add_action('admin_menu', array($this, 'add_plugin_admin_menu'));
+    /**
+     * Initialize the admin class
+     */
+    public function __construct() {
+        add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
-        add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_styles'));
-        add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
     }
 
-    public function add_plugin_admin_menu() {
+    /**
+     * Add admin menu
+     */
+    public function add_admin_menu() {
         add_menu_page(
-            'Sticky Bar Settings',
-            'Sticky Bar',
+            __('Sticky Bar Settings', 'stickybar'),
+            __('Sticky Bar', 'stickybar'),
             'manage_options',
             'stickybar-settings',
-            array($this, 'display_plugin_admin_page'),
+            array($this, 'display_settings_page'),
             'dashicons-align-center',
-            100
+            55
         );
     }
 
+    /**
+     * Register plugin settings
+     */
     public function register_settings() {
-        register_setting('stickybar_options', 'stickybar_settings', array($this, 'validate_settings'));
-
-        // General Settings
-        add_settings_section(
-            'stickybar_general',
-            'General Settings',
-            array($this, 'general_section_callback'),
-            'stickybar-settings'
+        // WhatsApp Integration Settings
+        register_setting(
+            'stickybar_options',
+            'stickybar_whatsapp_accounts',
+            array(
+                'type' => 'array',
+                'sanitize_callback' => array($this, 'validate_whatsapp_accounts'),
+                'default' => array()
+            )
         );
 
-        // Add settings fields
-        add_settings_field(
-            'enable_stickybar',
-            'Enable Sticky Bar',
-            array($this, 'enable_stickybar_callback'),
-            'stickybar-settings',
-            'stickybar_general'
+        register_setting(
+            'stickybar_options',
+            'stickybar_whatsapp_enabled',
+            array(
+                'type' => 'string',
+                'default' => '0'
+            )
         );
 
-        // WhatsApp Settings
-        add_settings_section(
-            'stickybar_whatsapp',
-            'WhatsApp Settings',
-            array($this, 'whatsapp_section_callback'),
-            'stickybar-settings'
-        );
-
-        // Style Settings
-        add_settings_section(
-            'stickybar_style',
-            'Style Settings',
-            array($this, 'style_section_callback'),
-            'stickybar-settings'
-        );
-
-        // Menu Items Settings
-        add_settings_section(
-            'stickybar_menu',
-            'Menu Items',
-            array($this, 'menu_section_callback'),
-            'stickybar-settings'
+        register_setting(
+            'stickybar_options',
+            'stickybar_whatsapp_display_style',
+            array(
+                'type' => 'string',
+                'default' => 'modal'
+            )
         );
     }
 
-    public function validate_settings($input) {
+    /**
+     * Validate WhatsApp accounts
+     */
+    public function validate_whatsapp_accounts($input) {
         $valid = array();
-
-        // Sanitize and validate each setting
-        $valid['enable_stickybar'] = isset($input['enable_stickybar']) ? 1 : 0;
-        $valid['gradient_start'] = sanitize_hex_color($input['gradient_start']);
-        $valid['gradient_end'] = sanitize_hex_color($input['gradient_end']);
         
-        // WhatsApp numbers validation
-        $valid['whatsapp_numbers'] = array();
-        if (isset($input['whatsapp_numbers']) && is_array($input['whatsapp_numbers'])) {
-            foreach ($input['whatsapp_numbers'] as $number) {
-                if (!empty($number['number'])) {
-                    $valid['whatsapp_numbers'][] = array(
-                        'number' => sanitize_text_field($number['number']),
-                        'title' => sanitize_text_field($number['title']),
-                        'hours' => sanitize_text_field($number['hours'])
-                    );
-                }
+        if (!is_array($input)) {
+            return $valid;
+        }
+
+        foreach ($input as $index => $account) {
+            // Skip empty accounts
+            if (empty($account['name']) || empty($account['phone'])) {
+                continue;
             }
+
+            $valid[] = array(
+                'name' => sanitize_text_field($account['name']),
+                'phone' => sanitize_text_field($account['phone']),
+                'message' => sanitize_textarea_field($account['message']),
+                'active' => isset($account['active']) ? 1 : 0
+            );
         }
 
         return $valid;
     }
 
-    public function display_plugin_admin_page() {
-        require_once plugin_dir_path(dirname(__FILE__)) . 'admin/views/admin-display.php';
-    }
-
-    public function enqueue_admin_styles($hook) {
-        if ('toplevel_page_stickybar-settings' !== $hook) {
-            return;
-        }
-        wp_enqueue_style('wp-color-picker');
-        wp_enqueue_style(
-            'stickybar-admin',
-            plugin_dir_url(__FILE__) . 'css/stickybar-admin.css',
-            array(),
-            $this->version,
-            'all'
-        );
-    }
-
-    public function enqueue_admin_scripts($hook) {
-        if ('toplevel_page_stickybar-settings' !== $hook) {
-            return;
-        }
-        wp_enqueue_script('wp-color-picker');
-        wp_enqueue_script(
-            'stickybar-admin',
-            plugin_dir_url(__FILE__) . 'js/stickybar-admin.js',
-            array('jquery', 'wp-color-picker'),
-            $this->version,
-            false
-        );
+    /**
+     * Display settings page
+     */
+    public function display_settings_page() {
+        require_once STICKYBAR_PLUGIN_DIR . 'templates/admin/settings/whatsapp.php';
     }
 }
+
+// Initialize admin
+new Stickybar_Admin();
