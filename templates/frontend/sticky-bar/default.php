@@ -49,6 +49,14 @@
     </div>
 </div>
 
+<<<<<<< HEAD
+=======
+<!-- Auth Modal -->
+<div id="auth-modal" style="display: none;">
+    <?php echo do_shortcode('[biwillz_auth_modal]'); ?>
+</div>
+
+>>>>>>> b04d656 (Updated the Stickybar)
 <!-- Sticky Bar -->
 <div class="bottom-sticky-bar1">
     <a href="<?php echo home_url('/'); ?>" class="bar-item <?php echo is_front_page() ? 'active' : ''; ?>">
@@ -66,8 +74,92 @@
         <i class="fas fa-th"></i>
         <span>Categories</span>
     </a>
+<<<<<<< HEAD
     <a href="https://biwillzcomputers.com/auth" class="bar-item">
         <i class="fas fa-sign-in-alt"></i>
         <span>Login</span>
     </a>
 </div>
+=======
+    <a href="#" class="bar-item" id="auth-trigger">
+        <i class="fas fa-sign-in-alt"></i>
+        <span>Login</span>
+    </a>
+</div>
+
+<script>
+(function($) {
+    // Function to handle modal toggle
+    function toggleAuthModal(show) {
+        if (show) {
+            $('#auth-modal').fadeIn(300);
+            $('body').addClass('modal-open');
+        } else {
+            $('#auth-modal').fadeOut(300);
+            $('body').removeClass('modal-open');
+        }
+    }
+
+    // Initialize event handlers
+    function initializeAuthModal() {
+        // Remove previous event handlers to prevent duplicate bindings
+        $(document).off('click.authModal keyup.authModal');
+
+        // Use delegated event binding to ensure it works for dynamically added elements
+        $(document).on('click.authModal', '#auth-trigger', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Ensure only direct clicks trigger the modal
+            if (!$(this).data('modal-open')) {
+                toggleAuthModal(true);
+                $(this).data('modal-open', true); // Prevent duplicate clicks
+            }
+        });
+
+        // Add close button handler
+        $(document).on('click.authModal', '#auth-modal .modal-close', function(e) {
+            e.preventDefault();
+            toggleAuthModal(false);
+            $('#auth-trigger').data('modal-open', false); // Reset state
+        });
+
+        // Handle clicks outside the modal
+        $(document).on('click.authModal', function(e) {
+            if ($('#auth-modal').is(':visible') &&
+                !$(e.target).closest('#auth-modal .modal-content').length &&
+                !$(e.target).closest('#auth-trigger').length) {
+                toggleAuthModal(false);
+                $('#auth-trigger').data('modal-open', false); // Reset state
+            }
+        });
+
+        // Add ESC key handler
+        $(document).on('keyup.authModal', function(e) {
+            if (e.key === 'Escape') {
+                toggleAuthModal(false);
+                $('#auth-trigger').data('modal-open', false); // Reset state
+            }
+        });
+
+        // Prevent modal from closing when clicking inside it
+        $(document).on('click', '#auth-modal .modal-content', function(e) {
+            e.stopPropagation();
+        });
+    }
+
+    // Initialize when document is ready
+    $(document).ready(function() {
+        initializeAuthModal();
+    });
+
+    // Reinitialize on ajax complete
+    $(document).ajaxComplete(function() {
+        initializeAuthModal();
+    });
+})(jQuery);
+
+
+
+</script>
+>>>>>>> b04d656 (Updated the Stickybar)
