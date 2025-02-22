@@ -49,14 +49,11 @@
     </div>
 </div>
 
-<<<<<<< HEAD
-=======
 <!-- Auth Modal -->
 <div id="auth-modal" style="display: none;">
     <?php echo do_shortcode('[biwillz_auth_modal]'); ?>
 </div>
 
->>>>>>> b04d656 (Updated the Stickybar)
 <!-- Sticky Bar -->
 <div class="bottom-sticky-bar1">
     <a href="<?php echo home_url('/'); ?>" class="bar-item <?php echo is_front_page() ? 'active' : ''; ?>">
@@ -74,13 +71,6 @@
         <i class="fas fa-th"></i>
         <span>Categories</span>
     </a>
-<<<<<<< HEAD
-    <a href="https://biwillzcomputers.com/auth" class="bar-item">
-        <i class="fas fa-sign-in-alt"></i>
-        <span>Login</span>
-    </a>
-</div>
-=======
     <a href="#" class="bar-item" id="auth-trigger">
         <i class="fas fa-sign-in-alt"></i>
         <span>Login</span>
@@ -162,4 +152,3 @@
 
 
 </script>
->>>>>>> b04d656 (Updated the Stickybar)
